@@ -27,6 +27,7 @@ npm link
 ## Publishing a new Version
 
 ```sh
+npm login
 npm publish --access public
 ```
 
