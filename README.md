@@ -1,4 +1,4 @@
-# json-cli
+# @peter_marklund/json
 
 An npm package that provides a convenient way to work with JSON using JavaScript in the terminal.
 
@@ -9,7 +9,7 @@ An npm package that provides a convenient way to work with JSON using JavaScript
 ## Installation
 
 ```sh
-npm install json-cli -g
+npm install @peter_marklund/json -g
 ```
 
 ## Usage
@@ -22,6 +22,12 @@ echo '{"foo": "1"}' | json .foo
 
 ```sh
 npm link
+```
+
+## Publishing a new Version
+
+```sh
+npm publish --access public
 ```
 
 # Prior Art
