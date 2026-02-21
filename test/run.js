@@ -25,7 +25,7 @@ async function runTest(test) {
     console.log(`output: ${output}`)
     const elapsedTime = Date.now() - startTime
     console.log(`elapsed: ${elapsedTime}`)
-    if (isJsonScalarValue(test.expected)) {
+    if (isJsonScalarValue(test.expected) || test.command.includes('JSONL=true')) {
         assert.strictEqual(output, test.expected)
     } else {
         assert.strictEqual(stringify(JSON.parse(output)), stringify(JSON.parse(test.expected)))
@@ -42,6 +42,7 @@ async function run() {
         const elapsedTime = Date.now() - startTime
         console.log(`\nTotal elapsed: ${elapsedTime}`)
         console.log(`Total tests run: ${spec.tests.length}`)
+        console.log('SUCCESS!')
         process.exit(0)
     } catch (error) {
         console.log(error.stack || error)

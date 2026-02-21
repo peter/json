@@ -61,7 +61,38 @@ function getCodeArg() {
 function readStdIn() {
     return fs.readFileSync(0).toString();
 }
-  
+
+function parseLine(line, openLines) {
+  let result = { openLines: [...openLines] };
+  try {
+    const openIndex = line.startsWith("[") ? 0 : line.indexOf("{");
+    if (
+      openLines.length === 0 &&
+      ((line.indexOf("{") >= 0 && line.endsWith("}")) ||
+        (line.startsWith("[") && line.endsWith("]")))
+    ) {
+      const doc = JSON.parse(line.substring(openIndex));
+      if (openIndex > 0 && !doc._line) doc._line = line.substring(0, openIndex);
+      result.parsedLine = doc;
+    } else if (line === "{") {
+      result.openLines = [line];
+    } else if (openLines.length > 0) {
+      result.openLines.push(line);
+      if (line === "}") {
+        result.parsedLine = JSON.parse(openLines.join("\n"));
+        result.openLines = [];
+      }
+    } else {
+      result.parsedLine = { _line: line };
+    }
+  } catch (err) {
+    result.error = `Error thrown parsing line: ${line} - ${err.stack}`;
+    result.openLines = [];
+    result.parsedLine = { _line: line };
+  }
+  return result;
+}
+
 async function jsonIn(filePath) {
     let textInput
     try {

@@ -54,10 +54,17 @@ function base64Encode(data) {
     return data && Buffer.from(data).toString("base64");
 }
 
-function percentile(values, pct) {
-    const sorted = values.sort((a, b) => a - b);
-    const index = Math.floor(sorted.length * pct);
-    return sorted[index];
+function percentile(arr, p) {
+    if (typeof p !== 'number' || p <= 0 || p >= 1.0) {
+        throw new Error('Percentile must be a number between 0 and 1');
+    }
+    const sorted = [...arr].sort((a, b) => a - b);
+    const index = p * (sorted.length - 1);
+    const lower = Math.floor(index);
+    const upper = Math.ceil(index);
+    const weight = index - lower;
+  
+    return sorted[lower] * (1 - weight) + sorted[upper] * weight;
 }
 
 function p50(values) {
