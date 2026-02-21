@@ -119,10 +119,16 @@ async function jsonIn(filePath) {
     }
 }
   
+function printJsonLines(data) {
+  for (const line of data) {
+    console.log(JSON.stringify(line));
+  }
+}
+
 function printJson(data) {
     console.log(JSON.stringify(data))
 }
-  
+
 function printPrettyJson(data) {
     console.log(colorize(JSON.stringify(data, null, 4)))
 }

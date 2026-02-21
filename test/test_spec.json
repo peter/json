@@ -1,0 +1,9 @@
+{
+    "tests": [
+        {
+            "name": "get_path",
+            "command": "cat test/input/basic.json | json .foo",
+            "expected": "1"
+        }
+    ]
+}
