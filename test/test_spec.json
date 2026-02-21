@@ -17,7 +17,12 @@
         },
         {
             "name": "get_path",
-            "command": "cat test/input/basic.json | json .foo",
+            "command": "cat test/input/basic.json | json '.nested?.foo?.bar'",
+            "expected": "nested value"
+        },
+        {
+            "name": "file_path_arg",
+            "command": "json .foo test/input/basic.json",
             "expected": "1"
         }
     ]

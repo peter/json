@@ -65,7 +65,7 @@ async function jsonIn(filePath) {
     let textInput
     try {
       if (filePath) {
-        return require(filePath)
+        return JSON.parse(fs.readFileSync(filePath, 'utf8'))
       } else {
         textInput = readStdIn()
         // NOTE: I've found JSON.parse intermittently errors out for data sizes around 15 MB but require(filePath) can handle more?

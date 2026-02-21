@@ -11,7 +11,8 @@ const exec = (cmd) => promisify(childProcess.exec)(cmd).then(result => result.st
 
 // Is the input a JSON string, number, boolean, or null (i.e. not an object or array)
 function isJsonScalarValue(text) {
-    return text && (text === 'null' || text === 'true' || text === 'false' || text.match(/^\d+$/) || (text.startsWith('"') && text.endsWith('"')))
+    // return text && (text === 'null' || text === 'true' || text === 'false' || text.match(/^\d+$/) || (text.startsWith('"') && text.endsWith('"')))
+    return !(text.startsWith('{') || text.startsWith('['))
 }
 
 async function runTest(test) {
