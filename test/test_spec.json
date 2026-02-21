@@ -1,6 +1,21 @@
 {
     "tests": [
         {
+            "name": "echo_no_arg",
+            "command": "echo '{\"foo\": 1}' | json",
+            "expected": "{\"foo\": 1}"
+        },
+        {
+            "name": "echo_dot",
+            "command": "echo '{\"foo\": 1}' | json .",
+            "expected": "{\"foo\": 1}"
+        },
+        {
+            "name": "echo_data",
+            "command": "echo '{\"foo\": 1}' | json data",
+            "expected": "{\"foo\": 1}"
+        },
+        {
             "name": "get_path",
             "command": "cat test/input/basic.json | json .foo",
             "expected": "1"

@@ -4,7 +4,7 @@
   "description": "A convenient way to work with JSON using JavaScript in the terminal",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./test/run.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/peter/json#readme",
   "dependencies": {
+    "fast-json-stable-stringify": "^2.1.0",
     "json-colorizer": "^3.0.1",
     "lodash": "^4.17.23",
     "object-diffy": "^1.0.4"

@@ -5,8 +5,14 @@ const path = require('path')
 const childProcess = require('child_process')
 const { promisify } = require('util')
 const assert = require('node:assert')
+const stringify = require('fast-json-stable-stringify')
 
 const exec = (cmd) => promisify(childProcess.exec)(cmd).then(result => result.stdout.trim())
+
+// Is the input a JSON string, number, boolean, or null (i.e. not an object or array)
+function isJsonScalarValue(text) {
+    return text && (text === 'null' || text === 'true' || text === 'false' || text.match(/^\d+$/) || (text.startsWith('"') && text.endsWith('"')))
+}
 
 async function runTest(test) {
     const startTime = Date.now()
@@ -18,7 +24,11 @@ async function runTest(test) {
     console.log(`output: ${output}`)
     const elapsedTime = Date.now() - startTime
     console.log(`elapsed: ${elapsedTime}`)
-    assert.strictEqual(output, test.expected)
+    if (isJsonScalarValue(test.expected)) {
+        assert.strictEqual(output, test.expected)
+    } else {
+        assert.strictEqual(stringify(JSON.parse(output)), stringify(JSON.parse(test.expected)))
+    }
 }
 
 async function run() {

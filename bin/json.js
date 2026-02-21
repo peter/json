@@ -44,6 +44,7 @@ const _ = require("lodash");
 Object.assign(global, require("lodash"));
 const { diff } = require("object-diffy");
 const { colorize } = require("json-colorizer");
+const stringify = require('fast-json-stable-stringify')
 
 function getCodeArg() {
     let code = process.argv[2] || "data"
@@ -121,16 +122,16 @@ async function jsonIn(filePath) {
   
 function printJsonLines(data) {
   for (const line of data) {
-    console.log(JSON.stringify(line));
+    console.log(stringify(line));
   }
 }
 
 function printJson(data) {
-    console.log(JSON.stringify(data))
+    console.log(stringify(data))
 }
 
 function printPrettyJson(data) {
-    console.log(colorize(JSON.stringify(data, null, 4)))
+    console.log(colorize(stringify(data, null, 4)))
 }
 
 async function main() {

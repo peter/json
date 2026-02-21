@@ -18,10 +18,12 @@ npm install @peter_marklund/json -g
 echo '{"foo": "1"}' | json .foo
 ```
 
-## Developing the Library Locally
+## Running the Tests
 
 ```sh
+npm install
 npm link
+npm test
 ```
 
 ## Publishing a new Version
