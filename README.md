@@ -15,7 +15,66 @@ npm install @peter_marklund/json -g
 ## Usage
 
 ```sh
+# Get the value at a path
 echo '{"foo": "1"}' | json .foo
+
+# Get the keys of the JSON data
+cat test/input/basic.json | json 'Object.keys(data)'                               
+# [
+#   "foo",
+#   "bar",
+#   "baz",
+#   "nested",
+#   "data"
+# ]
+
+# Get the length of an array:
+cat test/input/basic.json | json '.data.length'     
+# 3
+
+# Use the flattenJson helper to find the path of a deeply nested value:
+cat test/input/basic.json | json 'flattenJson(data)'
+# {
+#   "bar": "Hello world",
+#   "baz": false,
+#   "data.0.id": 1,
+#   "data.0.name": "Item 1",
+#   "data.0.value": 100,
+#   "data.1.id": 2,
+#   "data.1.name": "Item 2",
+#   "data.1.value": 200,
+#   "data.2.id": 3,
+#   "data.2.name": "Item 3",
+#   "data.2.value": 300,
+#   "foo": 1,
+#   "nested.foo.bar": "nested value"
+# }
+
+# Use the stats helper function to get min/max/avg/median/p90 etc. for numerical values
+cat test/input/basic.json | json 'data.data.map(d => d.value)' | json 'stats(data)'
+# {
+#   "avg": 200,
+#   "count": 3,
+#   "max": 300,
+#   "min": 100,
+#   "p1": 102,
+#   "p10": 120,
+#   "p20": 140,
+#   "p30": 160,
+#   "p40": 180,
+#   "p5": 110,
+#   "p50": 200,
+#   "p60": 220,
+#   "p70": 240,
+#   "p80": 260,
+#   "p90": 280,
+#   "p95": 290,
+#   "p99": 298,
+#   "p999": 299.79999999999995,
+#   "stdDev": 81.64965809277261,
+#   "sum": 600
+# }
+
 
 # Colorized pretty printing is the default
 cat test/input/array.json | json           
