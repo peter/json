@@ -25,10 +25,16 @@ async function runTest(test) {
     console.log(`output: ${output}`)
     const elapsedTime = Date.now() - startTime
     console.log(`elapsed: ${elapsedTime}`)
-    if (isJsonScalarValue(test.expected) || test.command.includes('JSON_OUTPUT=jsonl')) {
-        assert.strictEqual(output, test.expected)
+    if (test.expected) {
+        if (isJsonScalarValue(test.expected) || test.command.includes('JSON_OUTPUT=jsonl')) {
+            assert.strictEqual(output, test.expected)
+        } else {
+            assert.strictEqual(stringify(JSON.parse(output)), stringify(JSON.parse(test.expected)))
+        }    
+    } else if (test.expectedContains) {
+        assert.ok(output.includes(test.expectedContains))
     } else {
-        assert.strictEqual(stringify(JSON.parse(output)), stringify(JSON.parse(test.expected)))
+        throw new Error(`Test ${test.name} has no expected or expectedContains property`)
     }
 }
 

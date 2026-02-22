@@ -27,7 +27,7 @@ echo '{"foo": "1"}' | json .foo
 Get the keys of a JSON object:
 
 ```sh
-cat test/input/basic.json | json 'Object.keys(data)'                               
+cat test/input/basic.json | json 'Object.keys(data)'
 # [
 #   "foo",
 #   "bar",
@@ -40,7 +40,7 @@ cat test/input/basic.json | json 'Object.keys(data)'
 Get the length of an array:
 
 ```sh
-cat test/input/basic.json | json '.data.length'     
+cat test/input/basic.json | json '.data.length'
 # 3
 ```
 
@@ -130,7 +130,7 @@ cat test/input/data.json| json 'groupBy(data, "name")' | json 'mapValues(data, i
 Colorized pretty printing is the default
 
 ```sh
-cat test/input/array.json | json           
+cat test/input/array.json | json
 # [
 #   {
 #     "id": 1,

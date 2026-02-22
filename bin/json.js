@@ -59,8 +59,31 @@ const VALID_JSON_OUTPUT_TYPES = [
 ]
 VALID_JSON_STRINGIFIERS = ["stable", "default"]
 
-function getCodeArg() {
-    let code = process.argv[2] || "data"
+const USAGE_TEXT = `
+    Usage: json [javascript-code] [input-json-file]
+    
+    Arguments:
+      [javascript-code] JavaScript code to evaluate (optional, defaults to "data")
+      [input-json-file] Path to input JSON data (optional, by default stdin is used)
+    
+    Examples:
+      echo '{"foo": "1"}' | json .foo
+      cat test/input/basic.json | json 'Object.keys(data)'
+      cat test/input/basic.json | json '.data.length'
+      cat test/input/basic.json | json '.data.map(d => pick(d, ["value"]))'
+      cat test/input/basic.json | json 'flattenJson(data)'
+      cat test/input/basic.json | json 'data.data.map(d => d.value)' | json 'stats(data)'
+      cat test/input/data.json| json 'groupBy(data, "name")' | json 'mapValues(data, items => items.map(i => i.value))' | json 'mapValues(data, d => pick(stats(d), ["p90"]))'
+      cat test/input/array.json | json
+      cat test/input/basic.json | JSON_OUTPUT=json json
+      cat test/input/array.json | JSON_OUTPUT=jsonl json 
+      cat test/input/array.jsonl | json
+      cat test/input/log-with-json.log | json
+      echo '{"values1": [1, 2, 3, 4], "values2": [3, 5, 1, 11]}' | JSON_HELPERS_PATH="$(pwd)/test/custom-helpers.js" json 'correlation(data.values1, data.values2)'
+`
+
+function getCodeArg(args) {
+    let code = args[0] || "data"
     // Support jq like dot syntax
     if (code === ".") {
         code = "data"
@@ -179,11 +202,15 @@ function printPrettyJson(data, stringifier = "stable") {
 }
 
 async function main() {
-    const code = getCodeArg()
-    const filePath = process.argv[3]
-  
-    const data = await jsonIn(filePath)
-  
+    const args = process.argv.slice(2)
+    if (args.includes('--help') || args.includes('-h')) {
+      console.log(USAGE_TEXT);
+      process.exit(0);
+    }      
+    const code = getCodeArg(args)
+    const filePath = args[1]
+    const data = await jsonIn(filePath)  
+
     const processedData = eval(code)
 
     const JSON_OUTPUT = process.env.JSON_OUTPUT || "json_pretty"

@@ -1,6 +1,11 @@
 {
     "tests": [
         {
+            "name": "help_option_usage",
+            "command": "bin/json.js --help",
+            "expectedContains": "Usage"
+        },
+        {
             "name": "echo_no_arg",
             "command": "echo '{\"foo\": 1}' | json",
             "expected": "{\"foo\": 1}"
