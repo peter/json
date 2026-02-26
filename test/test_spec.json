@@ -7,52 +7,52 @@
         },
         {
             "name": "echo_no_arg",
-            "command": "echo '{\"foo\": 1}' | json",
+            "command": "echo '{\"foo\": 1}' | bin/json.js",
             "expected": "{\"foo\": 1}"
         },
         {
             "name": "echo_dot",
-            "command": "echo '{\"foo\": 1}' | json .",
+            "command": "echo '{\"foo\": 1}' | bin/json.js .",
             "expected": "{\"foo\": 1}"
         },
         {
             "name": "echo_data",
-            "command": "echo '{\"foo\": 1}' | json data",
+            "command": "echo '{\"foo\": 1}' | bin/json.js data",
             "expected": "{\"foo\": 1}"
         },
         {
             "name": "get_path",
-            "command": "cat test/input/basic.json | json '.nested?.foo?.bar'",
+            "command": "cat test/input/basic.json | bin/json.js '.nested?.foo?.bar'",
             "expected": "nested value"
         },
         {
             "name": "file_path_arg",
-            "command": "json .foo test/input/basic.json",
+            "command": "bin/json.js .foo test/input/basic.json",
             "expected": "1"
         },
         {
             "name": "lodash_sum",
-            "command": "cat test/input/basic.json | json 'sum(data.data.map(i => i.value))'",
+            "command": "cat test/input/basic.json | bin/json.js 'sum(data.data.map(i => i.value))'",
             "expected": "600"
         },
         {
             "name": "object_keys",
-            "command": "cat test/input/basic.json | json 'Object.keys(data)'",
+            "command": "cat test/input/basic.json | bin/json.js 'Object.keys(data)'",
             "expected": "[\"foo\", \"bar\", \"baz\", \"nested\", \"data\"]"
         },
         {
             "name": "array_length",
-            "command": "cat test/input/basic.json | json '.data.length'",
+            "command": "cat test/input/basic.json | bin/json.js '.data.length'",
             "expected": "3"
         },
         {
             "name": "flatten_json",
-            "command": "cat test/input/basic.json | json 'flattenJson(data)'",
+            "command": "cat test/input/basic.json | bin/json.js 'flattenJson(data)'",
             "expected": "{\"foo\": 1, \"bar\": \"Hello world\", \"baz\": false, \"nested.foo.bar\": \"nested value\", \"data.0.id\": 1, \"data.0.name\": \"Item 1\", \"data.0.value\": 100, \"data.1.id\": 2, \"data.1.name\": \"Item 2\", \"data.1.value\": 200, \"data.2.id\": 3, \"data.2.name\": \"Item 3\", \"data.2.value\": 300}"
         },
         {
             "name": "stats",
-            "command": "cat test/input/basic.json | json 'pick(stats(data.data.map(i => i.value)), [\"min\", \"max\", \"avg\", \"p50\", \"p90\"])'",
+            "command": "cat test/input/basic.json | bin/json.js 'pick(stats(data.data.map(i => i.value)), [\"min\", \"max\", \"avg\", \"p50\", \"p90\"])'",
             "expected": "{\"min\": 100, \"max\": 300, \"avg\": 200, \"p50\": 200, \"p90\": 280}"
         },
         {
