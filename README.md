@@ -205,15 +205,7 @@ echo '{"values1": [1, 2, 3, 4], "values2": [3, 5, 1, 11]}' | JSON_HELPERS_PATH="
 # 0.5976143046671968
 ```
 
-## Running the Tests
-
-```sh
-npm install
-npm link
-npm test
-```
-
-## Testing with a Fairly Large Log File
+## Use Case Example: A Fairly Large Log File With REST API Response Times
 
 ```sh
 aws logs tail "/ecs/redshift-stats-api" --region eu-west-1 --since 24h > ~/tmp/stats-api-logs-24h.log
@@ -252,6 +244,13 @@ cat ~/tmp/stats-api-logs-24h.log | bin/json.js ".filter(l => l.message?.startsWi
 #   "stdDev": 2409.9373583352394,
 #   "sum": 43345874
 # }
+```
+
+## Running the Tests
+
+```sh
+npm install
+npm test
 ```
 
 ## Publishing a new Version
